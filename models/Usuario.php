@@ -4,12 +4,13 @@ namespace Model;
 
 class Usuario extends ActiveRecord {
     protected static $tabla = 'usuarios';
-    protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'password', 'confirmado', 'token', 'admin'];
+    protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'saldo', 'password', 'confirmado', 'token', 'admin'];
 
     public $id;
     public $nombre;
     public $apellido;
     public $email;
+    public $saldo;
     public $password;
     public $password2;
     public $confirmado;
@@ -26,11 +27,12 @@ class Usuario extends ActiveRecord {
         $this->nombre = $args['nombre'] ?? '';
         $this->apellido = $args['apellido'] ?? '';
         $this->email = $args['email'] ?? '';
+        $this->saldo = $args['saldo'] ?? 10000;
         $this->password = $args['password'] ?? '';
         $this->password2 = $args['password2'] ?? '';
         $this->confirmado = $args['confirmado'] ?? 0;
         $this->token = $args['token'] ?? '';
-        $this->admin = $args['admin'] ?? '';
+        $this->admin = $args['admin'] ?? 0;
     }
 
     // Validar el Login de Usuarios
@@ -118,6 +120,6 @@ class Usuario extends ActiveRecord {
 
     // Generar un Token
     public function crearToken() : void {
-        $this->token = uniqid();
+        $this->token = bin2hex(random_bytes(32));
     }
 }

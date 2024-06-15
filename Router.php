@@ -36,7 +36,7 @@ class Router
         }
     }
 
-    public function render($view, $datos = [])
+    public function render($view, $datos = [], $layout="")
     {
         foreach ($datos as $key => $value) {
             $$key = $value; 
@@ -48,6 +48,8 @@ class Router
 
         $contenido = ob_get_clean(); // Limpia el Buffer
 
-        include_once __DIR__ . '/views/layout.php';
+        if($layout === "admin") include_once __DIR__ . '/views/layouts/admin.php';
+        else if($layout === "auth") include_once __DIR__ . '/views/layouts/auth.php';
+        else include_once __DIR__ . '/views/layouts/layout.php';
     }
 }
