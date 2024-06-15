@@ -1,0 +1,1 @@
+<h1 class=" text-cyan-400">Hola</h1>

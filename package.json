@@ -1,0 +1,26 @@
+{
+  "name": "pixelmarket",
+  "version": "1.0.0",
+  "description": "TailwinCSS",
+  "main": "index.js",
+  "scripts": {
+    "dev": "postcss src/app.css -o public/app.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devcoso/PixelMarket.git"
+  },
+  "author": "devcoso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devcoso/PixelMarket/issues"
+  },
+  "homepage": "https://github.com/devcoso/PixelMarket#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.4"
+  }
+}
