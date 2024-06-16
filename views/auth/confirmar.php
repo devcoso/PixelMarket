@@ -1,5 +1,6 @@
 <?php 
     if($alerta){ 
+        echo "<img src=\"/img/accepted.png\" alt=\"Logo inicio sesión Pixel Market\" class=\"w-1/5 max-w-14 m-auto mb-2\">";
         echo "<div class='bg-lime-600 text-white p-3 text-center rounded-md'>";
         echo "Cuenta confirmada exitosamente";
         echo "</div>";

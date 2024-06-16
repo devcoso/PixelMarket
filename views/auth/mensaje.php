@@ -1,3 +1,4 @@
+<img src="/img/accepted.png" alt="Logo inicio sesión Pixel Market" class="w-1/5 max-w-14 m-auto">
 <h2 class="text-xl text-zinc-700 text-center">Confirma tu cuenta</h2>
 <div>
     <p class="bg-lime-600 text-white font-bold p-2 my-3">Se ha enviado un correo de confirmación a tu cuenta</p>

@@ -28,7 +28,10 @@ $router->get('/confirmar-cuenta', [AuthController::class, 'confirmar']);
 
 // ---- Main ----
 $router->get('/', [MainPaginasController::class, 'index']);
-
+$router->get('/destacados', [MainPaginasController::class, 'destacados']);
+$router->get('/categorias', [MainPaginasController::class, 'categorias']);
+$router->get('/carrito', [MainPaginasController::class, 'carrito']);
+$router->get('/perfil', [MainPaginasController::class, 'perfil']);
 // ---- Admin ----
 
 

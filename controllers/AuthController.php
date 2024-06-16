@@ -166,7 +166,7 @@ class AuthController {
     }
 
     public static function reestablecer(Router $router) {
-        $token = s($_GET['token']);
+        $token = s($_GET['token'] ?? '');
         $token_valido = true;
 
         if(!$token) header('Location: /');
