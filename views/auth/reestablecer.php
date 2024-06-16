@@ -1,6 +1,7 @@
 <?php 
     if($token_valido){ 
 ?>
+    <img src="/img/key.png" alt="Logo inicio sesión Pixel Market" class="w-1/5 max-w-14 m-auto">
     <h2 class="text-xl text-zinc-700 text-center">Reestablece tu password</h2>
     <div>
         <?php include __DIR__ . '/../templates/alertas.php'; ?>

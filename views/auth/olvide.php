@@ -1,3 +1,4 @@
+<img src="/img/help.png" alt="Logo inicio sesión Pixel Market" class="w-1/5 max-w-14 m-auto">
 <h2 class="text-xl text-zinc-700 text-center">Olvidaste tu contraseña</h2>
 <p class="text-zinc-600 text-center">Escribe tu correo para enviar las instrucciones para recuperar tu contraseña.</p>
 <div>

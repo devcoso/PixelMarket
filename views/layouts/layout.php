@@ -18,6 +18,6 @@
         echo $contenido;
         include_once __DIR__ .'/../templates/footer.php'; 
     ?>
-    <script src="/js/helpers\hamburguesa.js"></script>
+    <script src="/js/helpers\navbar.js"></script>
 </body>
 </html>
