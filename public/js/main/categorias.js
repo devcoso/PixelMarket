@@ -96,7 +96,7 @@ function mostrarProductos(productos) {
         pPrecio.classList.add('font-display', 'text-2xl', 'font-semibold', 'text-zinc-900');
         const btnVerMas = document.createElement('button');
         btnVerMas.textContent = 'Ver más';
-        btnVerMas.classList.add('px-8', 'bg-zinc-800', 'text-white', 'font-bold', 'font-display', 'uppercase', 'w-2/3', 'text-center', 'hover:bg-zinc-600', 'rounded-md');
+        btnVerMas.classList.add('px-8', 'py-3', 'bg-zinc-800', 'text-white', 'font-bold', 'font-display', 'uppercase', 'w-2/3', 'text-center', 'hover:bg-zinc-600', 'rounded-md');
         btnVerMas.addEventListener('click', () => {
             window.location.href = `/producto?id=${element.id}`;
         });

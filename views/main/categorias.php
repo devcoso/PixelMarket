@@ -1,5 +1,5 @@
 <div class="flex flex-col lg:flex-row lg:h-screen">
-    <sidebar class="font-display w-full lg:w-1/4 bg-zinc-100 shadow-md text-center h-96 lg:h-full overflow-y-auto">
+    <sidebar class="font-display w-full lg:w-1/4 bg-zinc-100 shadow-md text-center h-80 lg:h-full overflow-y-auto">
         <h2 class="font-display text-4xl font-bold py-5 text-zinc-800">Categorias</h2>
         <ul id="categorias">
         </ul>
