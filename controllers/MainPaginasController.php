@@ -34,7 +34,7 @@ class MainPaginasController {
             header('Location: /');
         }
         // Render a la vista 
-        $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,dimensions,reviews";
+        $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,thumbnail,dimensions,reviews";
         // Obtener el contenido del archivo JSON
         $json = file_get_contents($url);
         // Verificar si se obtuvo el contenido correctamente
@@ -50,6 +50,23 @@ class MainPaginasController {
     }
 
     public static function carrito(Router $router) {
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $id = $_GET['id'] ?? null;
+            if (!$id) {
+                header('Location: /');
+            }
+            // Render a la vista 
+            $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,thumbnail,dimensions,reviews";
+            // Obtener el contenido del archivo JSON
+            $json = file_get_contents($url);
+            // Verificar si se obtuvo el contenido correctamente
+            if ($json === FALSE) {
+                header('Location: /');
+            }
+            
+
+            header('Location: /carrito');
+        }
         // Render a la vista 
         $router->render('main/carrito', [
             'titulo' => 'Carrito',
@@ -57,6 +74,7 @@ class MainPaginasController {
     }
 
     public static function perfil(Router $router) {
+
         // Render a la vista 
         $router->render('main/perfil', [
             'titulo' => 'Perfil',

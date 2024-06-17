@@ -30,7 +30,10 @@ $router->get('/confirmar-cuenta', [AuthController::class, 'confirmar']);
 $router->get('/', [MainPaginasController::class, 'index']);
 $router->get('/destacados', [MainPaginasController::class, 'destacados']);
 $router->get('/categorias', [MainPaginasController::class, 'categorias']);
+
 $router->get('/carrito', [MainPaginasController::class, 'carrito']);
+$router->post('/carrito', [MainPaginasController::class, 'carrito']);
+
 $router->get('/perfil', [MainPaginasController::class, 'perfil']);
 $router->get('/producto', [MainPaginasController::class, 'producto']);
 // ---- Admin ----
