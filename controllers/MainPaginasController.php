@@ -3,6 +3,9 @@
 namespace Controllers;
 
 use MVC\Router;
+use Model\Carrito;
+use Model\Compra;
+use Model\Usuario;
 
 class MainPaginasController {
     public static function index(Router $router) {
@@ -48,36 +51,34 @@ class MainPaginasController {
             'producto' => $producto,
         ]);
     }
-
-    public static function carrito(Router $router) {
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $id = $_GET['id'] ?? null;
-            if (!$id) {
-                header('Location: /');
-            }
-            // Render a la vista 
-            $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,thumbnail,dimensions,reviews";
-            // Obtener el contenido del archivo JSON
-            $json = file_get_contents($url);
-            // Verificar si se obtuvo el contenido correctamente
-            if ($json === FALSE) {
-                header('Location: /');
-            }
-            
-
-            header('Location: /carrito');
-        }
-        // Render a la vista 
-        $router->render('main/carrito', [
-            'titulo' => 'Carrito',
-        ]);
-    }
-
+    
     public static function perfil(Router $router) {
-
+        if(!is_auth()) {
+            header('Location: /login');
+        }
+        $usuario = Usuario::find($_SESSION['id']);
+        $saldo = $usuario->saldo;
         // Render a la vista 
         $router->render('main/perfil', [
             'titulo' => 'Perfil',
+            'saldo' => $saldo
         ]);
     }
+    public static function compras(Router $router) {
+        if(!is_auth()) {
+            header('Location: /login');
+        }
+        $tipo = $_GET['tipo'] ?? null;
+        $mensaje = $_GET['mensaje'] ?? null;
+        $compras = Compra::whereAll('usuario_id', $_SESSION['id']);
+
+        // Render a la vista 
+        $router->render('main/compras', [
+            'titulo' => 'Compras',
+            'mensaje' => $mensaje,
+            'tipo' => $tipo,
+            'saldo' => $compras
+        ]);
+    }
+
 }

@@ -26,6 +26,7 @@ CREATE TABLE `carrito` (
   `id` int NOT NULL AUTO_INCREMENT,
   `usuario_id` int NOT NULL,
   `producto_id` int NOT NULL,
+  `cantidad` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
@@ -52,6 +53,7 @@ CREATE TABLE `compra_producto` (
   `id` int NOT NULL AUTO_INCREMENT,
   `compra_id` int DEFAULT NULL,
   `producto_id` int NOT NULL,
+  `cantidad` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `compra_id` (`compra_id`),
   CONSTRAINT `compra_producto_ibfk_1` FOREIGN KEY (`compra_id`) REFERENCES `compras` (`id`) ON DELETE CASCADE
@@ -76,11 +78,11 @@ DROP TABLE IF EXISTS `compras`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `compras` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`)
+  KEY `user_id` (`usuario_id`),
+  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +113,7 @@ CREATE TABLE `usuarios` (
   `token` varchar(64) CHARACTER SET utf32 COLLATE utf32_bin DEFAULT NULL,
   `admin` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +122,6 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,' Pablito','Rodríguez','pablo@user.com','$2y$10$3hHIzTV4BhbL7Nfwts1ACOkoEQgB9no7.KtWVLSoHD91DPLKiplJy',10000.00,1,'',0),(2,' Pablito','Medina','cosoacount@gmail.com','$2y$10$aY0lmSAfUL1mOzHESNUVMeHPmPwMHIHKmW.Ttxk3/Mdw0WfG4eUSu',10000.00,1,'',0),(3,' Jose','Medinwa','pablo2@user.com','$2y$10$cZSBg.6RbZao4Y3/ZceXiuU9OhG7Ct8AUaffGr9E1wwCRCXQZVh0q',10000.00,1,'',0),(4,' David','Medina','jmedinap2100@alumno.ipn.mx','$2y$10$dP2yECK69ydZawexHE/HgOnaPgXjL6kPvMQtR6zfG1fhBYKnLSPDK',10000.00,1,'',0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-16 13:46:42
+-- Dump completed on 2024-06-17 22:58:32

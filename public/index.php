@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/app.php';
 
 use MVC\Router;
 use Controllers\AuthController;
+use Controllers\CarritoController;
 use Controllers\MainPaginasController;
 
 $router = new Router();
@@ -30,9 +31,13 @@ $router->get('/confirmar-cuenta', [AuthController::class, 'confirmar']);
 $router->get('/', [MainPaginasController::class, 'index']);
 $router->get('/destacados', [MainPaginasController::class, 'destacados']);
 $router->get('/categorias', [MainPaginasController::class, 'categorias']);
-
-$router->get('/carrito', [MainPaginasController::class, 'carrito']);
-$router->post('/carrito', [MainPaginasController::class, 'carrito']);
+$router->get('/compras', [MainPaginasController::class, 'compras']);
+// Carrito
+$router->get('/carrito', [CarritoController::class, 'carrito']);
+$router->post('/carrito', [CarritoController::class, 'agregar']);
+$router->post('/carrito/editar', [CarritoController::class, 'editar']);
+$router->post('/carrito/eliminar', [CarritoController::class, 'eliminar']);
+$router->post('/carrito/comprar', [CarritoController::class, 'comprar']);
 
 $router->get('/perfil', [MainPaginasController::class, 'perfil']);
 $router->get('/producto', [MainPaginasController::class, 'producto']);

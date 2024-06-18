@@ -35,13 +35,11 @@ class ActiveRecord {
     public static function consultarSQL($query) {
         // Consultar la base de datos
         $resultado = self::$db->query($query);
-
         // Iterar los resultados
         $array = [];
         while($registro = $resultado->fetch_assoc()) {
             $array[] = static::crearObjeto($registro);
         }
-
         // liberar la memoria
         $resultado->free();
 
@@ -129,6 +127,24 @@ class ActiveRecord {
         $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor'";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
+    }
+
+    public static function whereArray($condiciones) {
+        $whereClauses = [];
+        foreach ($condiciones as $columna => $valor) {
+            $whereClauses[] = "$columna = '$valor'";
+        }
+        $whereClause = implode(' AND ', $whereClauses);
+        
+        $query = "SELECT * FROM " . static::$tabla . " WHERE $whereClause";
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
+    public static function whereAll($columna, $valor) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor' ORDER BY id DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
     }
 
     // crea un nuevo registro
