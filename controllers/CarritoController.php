@@ -177,6 +177,7 @@ class CarritoController {
                 $compra_producto->compra_id = $compra_id;
                 $compra_producto->producto_id = $item->producto_id;
                 $compra_producto->cantidad = $item->cantidad;
+                $compra_producto->pagado = $item->producto->price * $item->cantidad;
                 $resultado = $compra_producto->guardar();
                 if(!$resultado) {
                     header('Location: /carrito?mensaje=Error al comprar&tipo=error');

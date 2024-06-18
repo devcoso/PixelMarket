@@ -58,7 +58,6 @@ function calcularTotal() {
     })
     let saldo = convertirCadenaADinero(spanSaldo.textContent);
     let restante = saldo - total;
-    console.log(total, saldo, restante)
     spanTotalGlobal.textContent = formatearDinero(total);
     if(restante < 0){
         spanRestante.textContent = 'Saldo Insuficiente';

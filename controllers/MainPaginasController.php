@@ -2,9 +2,11 @@
 
 namespace Controllers;
 
+use DateTime;
 use MVC\Router;
 use Model\Carrito;
 use Model\Compra;
+use Model\CompraProducto;
 use Model\Usuario;
 
 class MainPaginasController {
@@ -70,14 +72,24 @@ class MainPaginasController {
         }
         $tipo = $_GET['tipo'] ?? null;
         $mensaje = $_GET['mensaje'] ?? null;
+        date_default_timezone_set('UTC');
         $compras = Compra::whereAll('usuario_id', $_SESSION['id']);
-
+        foreach($compras as $compra){
+            $compra->fecha = new DateTime($compra->fecha);
+            $compra->fecha->modify('-6 hours');
+            $productos = CompraProducto::whereAll('compra_id', $compra->id);
+            $pagado = 0;
+            foreach($productos as $producto){  
+                $pagado += $producto->pagado;
+            }
+            $compra->pagado = $pagado;
+        }
         // Render a la vista 
         $router->render('main/compras', [
             'titulo' => 'Compras',
             'mensaje' => $mensaje,
             'tipo' => $tipo,
-            'saldo' => $compras
+            'compras' => $compras
         ]);
     }
 
