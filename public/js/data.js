@@ -1,6 +1,6 @@
 async function getCategorias() {
     try {
-        const response = await fetch('https://dummyjson.com/products/categories');
+        const response = await fetch('/api/categorias');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -8,9 +8,9 @@ async function getCategorias() {
     }
 }
 
-async function getProductos(slug) {
+async function getProductos(extra = '') {
     try {
-        const response = await fetch('https://dummyjson.com/products' + slug);
+        const response = await fetch('/api/productos' + extra);
         const data = await response.json();
         return data;
     } catch (error) {

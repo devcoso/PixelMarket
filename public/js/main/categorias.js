@@ -2,6 +2,9 @@ import { getCategorias, getProductos } from '../data.js';
 
 iniciarApp();
 
+let productos;
+let productosMostrar;
+let productosTotal = 0;
 const categoriaTitulo = document.querySelector('#categoriaTitulo');
 const divProductos = document.querySelector('#productos');
 const divPaginación = document.querySelector('#paginacion');
@@ -15,48 +18,47 @@ const productosPorPagina = 21;
 const main = document.querySelector('#main')
 let paginaActual = 1;
 btnAnterior.disabled = true;
-let productosTotal = 0;
-let categoria_slug = '';
 
 
 async function iniciarApp() {
     const categorias = await getCategorias(); //Trae caregorias de la API
-    categorias.unshift({slug: '', name: 'Todos', url: 'https://dummyjson.com/products'}); //Agrega la categoria "Todos" al principio del array
+    categorias.unshift({id:0, nombre: 'Todos'}); //Agrega la categoria "Todos" al principio del array
     mostrarCategoria(categorias);
-    const productos = await getProductos(`?&limit=${productosPorPagina}&select=title,thumbnail,price,rating,id`);
-    productosTotal = productos.total;
+    productos = await getProductos();
+    productosTotal = productos.length;
+    productosMostrar = productos;
     actualizarInfo();
-    mostrarProductos(productos.products);
+    paginarProductos();
 }
 
 function mostrarCategoria(categorias) {
     const divCategorias = document.querySelector('#categorias');
     categorias.forEach(element => {
         const p = document.createElement('p');
-        p.textContent = element.name;
+        p.textContent = element.nombre;
         p.classList.add('text-lg', 'font-semibold', 'py-2', 'border-b-2', 'border-zinc-200', 'last:border-none', 'cursor-pointer', 'hover:bg-zinc-300');
         p.addEventListener('click', async() => {
             limpiarSeleccionCategorias();
-            categoriaTitulo.textContent = element.name;
+            categoriaTitulo.textContent = element.nombre;
             paginaActual = 1;
             btnAnterior.disabled = true;
-            categoria_slug = element.slug;
+            btnSiguiente.disabled = false;
             p.classList.add('bg-zinc-300');
-            let productos;
-            if(element.slug === '') productos = await getProductos(`?&limit=${productosPorPagina}&select=title,thumbnail,price,rating,id`);
-            else productos = await getProductos(`/category/${element.slug}?&limit=${productosPorPagina}&select=title,thumbnail,price,rating,id`);
-            productosTotal = productos.total;
-            if(productos.total > productosPorPagina) {
+            if(element.id == 0) productosMostrar = productos;
+            else productosMostrar = productos.filter(producto => producto.categoria_id == element.id);
+            productosTotal = productosMostrar.length;
+            if(productosTotal > productosPorPagina) {
                 infoPaginacion.classList.remove('hidden');
                 divPaginación.classList.remove('hidden');
                 divPaginación.classList.add('flex');
+                console.log('entra')
             } else {
                 infoPaginacion.classList.add('hidden');
-                divPaginación.classList.remove('flex');
                 divPaginación.classList.add('hidden');
+                divPaginación.classList.remove('flex');
             }
             actualizarInfo();
-            mostrarProductos(productos.products);
+            paginarProductos();
         })
         divCategorias.appendChild(p);
     });
@@ -70,7 +72,6 @@ function limpiarSeleccionCategorias() {
 }
 
 function mostrarProductos(productos) {
-    //console.log(productos);
     divProductos.innerHTML = '';
     productos.forEach(element => {
         const divProducto = document.createElement('div');
@@ -78,7 +79,7 @@ function mostrarProductos(productos) {
         const divEstrellas = document.createElement('div');
         divEstrellas.classList.add('flex', 'items-center', 'justify-end', 'w-full', 'gap-2');
         const pEstrellas = document.createElement('p');
-        pEstrellas.textContent = element.rating;
+        pEstrellas.textContent = element.valoracion;
         pEstrellas.classList.add('text-zinc-600', 'font-bold');
         const imgEstrellas = document.createElement('img');
         imgEstrellas.src = '/img/star.png';
@@ -86,13 +87,13 @@ function mostrarProductos(productos) {
         divEstrellas.appendChild(pEstrellas);
         divEstrellas.appendChild(imgEstrellas);
         const h3 = document.createElement('h3');
-        h3.textContent = element.title;
+        h3.textContent = element.titulo;
         h3.classList.add('uppercase', 'font-bold', 'text-center');
         const imgProducto = document.createElement('img');
         imgProducto.src = element.thumbnail;
         imgProducto.classList.add('w-1/2');
         const pPrecio = document.createElement('p');
-        pPrecio.textContent = `$${element.price}`;
+        pPrecio.textContent = `$${element.precio}`;
         pPrecio.classList.add('font-display', 'text-2xl', 'font-semibold', 'text-zinc-900');
         const btnVerMas = document.createElement('button');
         btnVerMas.textContent = 'Ver más';
@@ -114,8 +115,6 @@ btnAnterior.addEventListener('click', async() => {
         btnSiguiente.disabled = false;
         paginaActual--;
         paginarProductos();
-        main.scrollTop = 0;
-        window.scrollTo(0, 0);
     } 
     if(paginaActual === 1) {
         btnAnterior.disabled = true;
@@ -132,6 +131,7 @@ btnSiguiente.addEventListener('click', async() => {
         main.scrollTop = 0;
         window.scrollTo(0, 0);
     }
+    console.log(paginaActual, paginasTotales)
     if(paginaActual === paginasTotales) {
         btnSiguiente.disabled = true;
     }
@@ -139,10 +139,10 @@ btnSiguiente.addEventListener('click', async() => {
 
 async function paginarProductos() {
     actualizarInfo();
-    let productos;
-    if(categoria_slug === '') productos = await getProductos(`?&limit=${productosPorPagina}&skip=${(paginaActual - 1) * productosPorPagina}&select=title,thumbnail,price,rating,id`);
-    else productos = await getProductos(`/category/${categoria_slug}?&limit=${productosPorPagina}&skip=${(paginaActual - 1) * productosPorPagina}&select=title,thumbnail,price,rating,id`);
-    mostrarProductos(productos.products);
+    let inicio = (paginaActual - 1) * productosPorPagina;
+    let fin = paginaActual * productosPorPagina;
+    let productosMostrados = productosMostrar.slice(inicio, fin);
+    mostrarProductos(productosMostrados);
 }
 
 function actualizarInfo(){

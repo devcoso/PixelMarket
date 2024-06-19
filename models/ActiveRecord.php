@@ -117,9 +117,9 @@ class ActiveRecord {
 
     // Obtener Registros con cierta cantidad
     public static function get($limite) {
-        $query = "SELECT * FROM " . static::$tabla . " LIMIT $limite ORDER BY id DESC" ;
+        $query = "SELECT * FROM " . static::$tabla . " ORDER BY id ASC LIMIT $limite" ;
         $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        return $resultado;
     }
 
     // Busqueda Where con Columna 
@@ -143,6 +143,12 @@ class ActiveRecord {
 
     public static function whereAll($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE $columna = '$valor' ORDER BY id DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    public static function orderBy($columna, $orden) {
+        $query = "SELECT * FROM " . static::$tabla . " ORDER BY $columna $orden";
         $resultado = self::consultarSQL($query);
         return $resultado;
     }

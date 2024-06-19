@@ -4,22 +4,28 @@
         <p class="text-center p-2 uppercase text-white text-xl font-bold border-l-4 font-display <?php echo $tipo == "success" ? 'bg-lime-600  border-lime-800' : 'bg-red-800  border-red-900' ?>"><?php echo $mensaje ?></p>
     <?php } ?>
     <?php if($compras) {?>
-        <div class="space-y-3 w-full lg:w-1/2 mx-6">
+        <div class="space-y-6 w-full lg:w-1/2 mx-6">
             <?php foreach($compras as $compra) {?>
-                <div class="bg-zinc-100 shadow-lg w-full p-4">
-                    <div class="flex  flex-col md:flex-row items-center justify-between">
-                        <div class="flex items-center flex-col md:flex-row gap-3 md:w-2/3">
-                            <p class="w-full md:w-1/2 text-center md:text-left font-display">COMPRA #<?php echo $compra->id ?></p>
-                            <div class="w-full md:w-1/2 text-center md:text-left font-display flex flex-col items-center">
-                                <p>Fecha: <span class="font-sans"><?php echo $compra->fecha->format('Y-m-d');?></span></p>
-                                <p>Hora: <span class="font-sans"><?php echo $compra->fecha->format('H:i:s');?></span></p>
-                            </div>
+                <div class="bg-zinc-100 shadow-lg w-full p-4 flex flex-col md:flex-row">
+                    <div class="w-full md:w-1/2 flex  flex-col items-center justify-between">
+                        <p class="font-display">COMPRA #<?php echo $compra->id ?></p>
+                        <img class="w-1/2 md:w-1/3" src="<?php echo $compra->imagen?>" alt="">
+                        <div class="font-display flex justify-between w-full">
+                            <p>Fecha: <span class="font-sans"><?php echo $compra->fecha->format('Y-m-d');?></span></p>
+                            <p>Hora: <span class="font-sans"><?php echo $compra->fecha->format('H:i:s');?></span></p>
                         </div>
-                        <p class="w-full md:w-1/3 text-center md:text-right font-display">
-                            Total: <span class="font-bold font-sans"><?php echo number_format($compra->pagado, 2)?></span>    
-                        </p>
                     </div>
-                    <a class="bg-zinc-800 mt-4 text-white hover:bg-zinc-600 font-display block text-center rounded-md w-full md:w-1/3 m-auto" href="/compra?id=<?php echo $compra->id ?>">Más información</a>
+                    <div class="w-full md:w-1/2 flex items-end justify-between flex-col">
+                        <div>
+                            <p class="font-display">
+                                Total: <span class="font-bold font-sans"><?php echo number_format($compra->pagado, 2)?></span>    
+                            </p>
+                            <p class="font-display">
+                                Artículos: <span class="font-bold font-sans"><?php echo $compra->cantidad?></span>        
+                            </p>
+                        </div>
+                        <a class="bg-zinc-800 mt-4 text-white hover:bg-zinc-600 font-display block text-center rounded-md w-full md:w-1/2" href="/compra?id=<?php echo $compra->id ?>">Más información</a>
+                    </div>
                 </div>
             <?php } ?>
         </div>

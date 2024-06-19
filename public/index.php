@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../includes/app.php';
 
 use MVC\Router;
+use Controllers\APIProductos;
 use Controllers\AuthController;
 use Controllers\CarritoController;
 use Controllers\MainPaginasController;
@@ -38,6 +39,10 @@ $router->post('/carrito', [CarritoController::class, 'agregar']);
 $router->post('/carrito/editar', [CarritoController::class, 'editar']);
 $router->post('/carrito/eliminar', [CarritoController::class, 'eliminar']);
 $router->post('/carrito/comprar', [CarritoController::class, 'comprar']);
+// API Productos
+$router->get('/api/productos', [APIProductos::class, 'getProductos']);
+$router->get('/api/productos/valoracion', [APIProductos::class, 'getProductosPorValoracion']);
+$router->get('/api/categorias', [APIProductos::class, 'getCategorias']);
 
 $router->get('/perfil', [MainPaginasController::class, 'perfil']);
 $router->get('/producto', [MainPaginasController::class, 'producto']);

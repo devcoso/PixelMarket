@@ -6,17 +6,17 @@
     <?php if($carrito) { $total = 0;?>
         <div class="space-y-3 w-full lg:w-1/2 mx-6">
             <?php foreach($carrito as $item) {?>
-                <?php $total += $item->producto->price * $item->cantidad ?>
+                <?php $total += $item->producto->precio * $item->cantidad ?>
                 <div class="flex bg-zinc-100 shadow-lg flex-col md:flex-row items-center justify-between w-full p-4">
                     <div class="flex items-center flex-col md:flex-row gap-3 md:w-1/2">
                         <a href="/producto?id=<?php echo $item->producto->id?>" class="block w-full md:w-1/2 max-w-32 hover:opacity-70">
-                            <img src="<?php echo $item->producto->thumbnail ?>" alt="Imagen <?php echo $item->producto->title ?>" class="w-full">
+                            <img src="<?php echo $item->producto->thumbnail ?>" alt="Imagen <?php echo $item->producto->titulo ?>" class="w-full">
                         </a>
                         <div class="w-1/2 text-center md:text-left font-display">
-                            <h4 class="text-lg font-bold"><?php echo $item->producto->title ?></h4>
-                            <p class="text-sm"><?php echo $item->producto->category ?></p>
-                            <p class="text-sm font-sans" id="precio-<?php echo $item->id?>"><?php echo number_format($item->producto->price, 2, '.', ',') ?></p>
-                            <p class="text-sm">Total:$<span class="total font-sans" id="total-<?php echo $item->id?>" class="font-bold"><?php echo  number_format($item->producto->price * $item->cantidad, 2, '.', ',') ?></span></p>
+                            <h4 class="text-lg font-bold"><?php echo $item->producto->titulo ?></h4>
+                            <p class="text-sm"><?php echo $item->producto->categoria ?></p>
+                            <p class="text-sm font-sans" id="precio-<?php echo $item->id?>"><?php echo number_format($item->producto->precio, 2, '.', ',') ?></p>
+                            <p class="text-sm">Total:$<span class="total font-sans" id="total-<?php echo $item->id?>" class="font-bold"><?php echo  number_format($item->producto->precio * $item->cantidad, 2, '.', ',') ?></span></p>
                         </div>
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:flex-row items-center justify-end gap-2">

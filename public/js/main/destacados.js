@@ -1,6 +1,7 @@
 import { getCategorias, getProductos } from '../data.js';
 
 
+let productos;
 const divProductos = document.querySelector('#productos');
 const btnAnterior = document.querySelector('#btnAnterior');
 const btnSiguiente = document.querySelector('#btnSiguiente');
@@ -15,8 +16,8 @@ btnAnterior.disabled = true;
 
 inciarApp();
 async function inciarApp() {
-    const productos = await getProductos(`?&limit=0`);
-    productosTotal = productos.total;
+    productos = await getProductos('/valoracion');
+    productosTotal = productos.length;
     paginarProductos();
 }
 
@@ -29,7 +30,7 @@ function mostrarProductos(productos) {
         const divEstrellas = document.createElement('div');
         divEstrellas.classList.add('flex', 'items-center', 'justify-end', 'w-full', 'gap-2');
         const pEstrellas = document.createElement('p');
-        pEstrellas.textContent = element.rating;
+        pEstrellas.textContent = element.valoracion;
         pEstrellas.classList.add('text-zinc-600', 'font-bold');
         const imgEstrellas = document.createElement('img');
         imgEstrellas.src = '/img/star.png';
@@ -37,13 +38,13 @@ function mostrarProductos(productos) {
         divEstrellas.appendChild(pEstrellas);
         divEstrellas.appendChild(imgEstrellas);
         const h3 = document.createElement('h3');
-        h3.textContent = element.title;
+        h3.textContent = element.titulo;
         h3.classList.add('uppercase', 'font-bold', 'text-center');
         const imgProducto = document.createElement('img');
         imgProducto.src = element.thumbnail;
         imgProducto.classList.add('w-1/2');
         const pPrecio = document.createElement('p');
-        pPrecio.textContent = `$${element.price}`;
+        pPrecio.textContent = `$${element.precio}`;
         pPrecio.classList.add('font-display', 'text-2xl', 'font-semibold', 'text-zinc-900');
         const btnVerMas = document.createElement('button');
         btnVerMas.textContent = 'Ver más';
@@ -65,8 +66,6 @@ btnAnterior.addEventListener('click', async() => {
         btnSiguiente.disabled = false;
         paginaActual--;
         paginarProductos();
-        main.scrollTop = 0;
-        window.scrollTo(0, 0);
     } 
     if(paginaActual === 1) {
         btnAnterior.disabled = true;
@@ -90,8 +89,10 @@ btnSiguiente.addEventListener('click', async() => {
 
 async function paginarProductos() {
     actualizarInfo();
-    let productos = await getProductos(`?&limit=${productosPorPagina}&skip=${(paginaActual - 1) * productosPorPagina}&sortBy=rating&order=desc&select=title,thumbnail,price,rating,id`);
-    mostrarProductos(productos.products);
+    let inicio = (paginaActual - 1) * productosPorPagina;
+    let fin = paginaActual * productosPorPagina;
+    let productosMostrados = productos.slice(inicio, fin);
+    mostrarProductos(productosMostrados);
 }
 
 function actualizarInfo(){

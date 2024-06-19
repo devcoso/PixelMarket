@@ -4,15 +4,16 @@ namespace Controllers;
 
 use DateTime;
 use MVC\Router;
-use Model\Carrito;
 use Model\Compra;
-use Model\CompraProducto;
 use Model\Usuario;
+use Model\Producto;
+use Model\Categorias;
+use Model\Comentarios;
+use Model\CompraProducto;
 
 class MainPaginasController {
     public static function index(Router $router) {
-        
-        
+
         // Render a la vista 
         $router->render('main/index', [
             'titulo' => 'Incio',
@@ -38,16 +39,16 @@ class MainPaginasController {
         if (!$id) {
             header('Location: /');
         }
-        // Render a la vista 
-        $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,thumbnail,dimensions,reviews";
-        // Obtener el contenido del archivo JSON
-        $json = file_get_contents($url);
-        // Verificar si se obtuvo el contenido correctamente
-        if ($json === FALSE) {
+        //Obtener el producto
+        $producto = Producto::find($id);
+        if (!$producto) {
             header('Location: /');
         }
-        // Decodificar el JSON a un array asociativo de PHP
-        $producto = json_decode($json, true);
+        // Obtener las categorias
+        $categoria = Categorias::find($producto->categoria_id);
+        $producto->categoria = $categoria->nombre;
+        $comentarios = Comentarios::whereAll('producto_id', $producto->id);
+        $producto->comentarios = $comentarios;
         $router->render('main/producto', [
             'titulo' => 'Producto',
             'producto' => $producto,
@@ -66,6 +67,7 @@ class MainPaginasController {
             'saldo' => $saldo
         ]);
     }
+
     public static function compras(Router $router) {
         if(!is_auth()) {
             header('Location: /login');
@@ -79,10 +81,15 @@ class MainPaginasController {
             $compra->fecha->modify('-6 hours');
             $productos = CompraProducto::whereAll('compra_id', $compra->id);
             $pagado = 0;
+            $cantitad_total = 0;
             foreach($productos as $producto){  
                 $pagado += $producto->pagado;
+                $cantitad_total += $producto->cantidad;
             }
             $compra->pagado = $pagado;
+            $compra->cantidad = $cantitad_total;
+            $producto1 = Producto::find($productos[0]->producto_id);
+            $compra->imagen = $producto1->thumbnail;
         }
         // Render a la vista 
         $router->render('main/compras', [

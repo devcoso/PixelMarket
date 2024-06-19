@@ -20,7 +20,16 @@ async function searchProduct(value) {
     searchMenu.innerHTML = '';
     searchMenuMobile.innerHTML = '';
     if(value === '') return;
-    const {products} = await getProductos(`/search?q=${value}&select=title&limit=5`);
+    const response = await fetch(`https://dummyjson.com/products/search?q=${value}&select=id,title&limit=5`);
+    if(!response.ok) {
+        const li = document.createElement('li');
+        li.textContent = 'Error al buscar productos, tal vez no hay conenxión a internet';
+        searchMenu.appendChild(li);
+        searchMenuMobile.appendChild(li.cloneNode(true));
+        console.log('Error al buscar productos');
+        return;
+    }
+    const {products} = await response.json();
     products.forEach(product => { 
         const li = document.createElement('button');
         li.classList.add('p-3', 'text-zinc-800','w-full', 'hover:bg-zinc-200', 'uppercase', 'border-b-2', 'border-zinc-200', 'last:border-none', 'cursor-pointer');

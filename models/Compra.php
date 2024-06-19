@@ -9,7 +9,6 @@ class Compra extends ActiveRecord {
     public $id;
     public $usuario_id;
     public $fecha;
-    public $cantidad;
     
     public function __construct($args = [])
     {

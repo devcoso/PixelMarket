@@ -7,6 +7,7 @@ use Model\Compra;
 use Model\Carrito;
 use Model\Usuario;
 use Model\CompraProducto;
+use Model\Producto;
 
 class CarritoController {
     public static function carrito(Router $router) {
@@ -17,25 +18,17 @@ class CarritoController {
         $tipo = $_GET['tipo'] ?? null;
         $mensaje = $_GET['mensaje'] ?? null;
         $carrito = Carrito::whereAll('usuario_id', $_SESSION['id']);
-        foreach($carrito as $producto) {
-            $url = "https://dummyjson.com/products/$producto->producto_id?select=id,title,category,price,thumbnail";
-            // Obtener el contenido del archivo JSON
-            $json = file_get_contents($url);
-            // Verificar si se obtuvo el contenido correctamente
-            if ($json === FALSE) {
-                header('Location: /carrito?mensaje=Producto no encontrado&tipo=error');
-                return;
-            }
-            $producto->producto = json_decode($json);
+        foreach($carrito as $item) {
+            $item->producto = Producto::find($item->producto_id);
         }
         $usuario = Usuario::find($_SESSION['id']);
         $saldo = $usuario->saldo;
         // Render a la vista 
         $router->render('main/carrito', [
             'titulo' => 'Carrito',
+            'carrito' => $carrito,
             'mensaje' => $mensaje,
             'tipo' => $tipo,
-            'carrito' => $carrito,
             'saldo' => $saldo
         ]);
     }
@@ -50,13 +43,9 @@ class CarritoController {
             if (!$id) {
                 header('Location: /');
             }
-            // Render a la vista 
-            $url = "https://dummyjson.com/products/$id?select=id,title,category,brand,description,price,stock,availabilityStatus,rating,images,thumbnail,dimensions,reviews";
-            // Obtener el contenido del archivo JSON
-            $json = file_get_contents($url);
-            // Verificar si se obtuvo el contenido correctamente
-            if ($json === FALSE) {
-                header('Location: /carrito?mensaje=Producto no encontrado&tipo=error');
+            $producto = Producto::find($id);
+            if(!$producto) {
+                header('Location: /');
                 return;
             }
             $carrito = Carrito::whereArray(['usuario_id' => $_SESSION['id'], 'producto_id' => $id]);
@@ -145,24 +134,14 @@ class CarritoController {
             }
             $total = 0;
             foreach($carrito as $item) {
-                $url = "https://dummyjson.com/products/$item->producto_id?select=price";
-                // Obtener el contenido del archivo JSON
-                $json = file_get_contents($url);
-                // Verificar si se obtuvo el contenido correctamente
-                if ($json === FALSE) {
-                    header('Location: /carrito?mensaje=Producto no encontrado&tipo=error');
-                    return;
-                }
-                $item->producto = json_decode($json);
-                $total += $item->producto->price * $item->cantidad;
+                $item->producto = Producto::find($item->producto_id);
+                $total += $item->producto->precio * $item->cantidad;
             }
-
             $usuario = Usuario::find($_SESSION['id']);
             if($usuario->saldo < $total) {
                 header('Location: /carrito?mensaje=Saldo insuficiente&tipo=error');
                 return;
             }
-
             $compra = new Compra();
             $compra->usuario_id = $_SESSION['id'];
             $compra->fecha = date('Y-m-d H:i:s', time());
@@ -177,7 +156,7 @@ class CarritoController {
                 $compra_producto->compra_id = $compra_id;
                 $compra_producto->producto_id = $item->producto_id;
                 $compra_producto->cantidad = $item->cantidad;
-                $compra_producto->pagado = $item->producto->price * $item->cantidad;
+                $compra_producto->pagado = $item->producto->precio * $item->cantidad;
                 $resultado = $compra_producto->guardar();
                 if(!$resultado) {
                     header('Location: /carrito?mensaje=Error al comprar&tipo=error');
