@@ -33,6 +33,8 @@ $router->get('/', [MainPaginasController::class, 'index']);
 $router->get('/destacados', [MainPaginasController::class, 'destacados']);
 $router->get('/categorias', [MainPaginasController::class, 'categorias']);
 $router->get('/compras', [MainPaginasController::class, 'compras']);
+$router->get('/compra', [MainPaginasController::class, 'compra']);
+$router->get('/compra/Comprobante', [MainPaginasController::class, 'PDF']);
 // Carrito
 $router->get('/carrito', [CarritoController::class, 'carrito']);
 $router->post('/carrito', [CarritoController::class, 'agregar']);
