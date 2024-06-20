@@ -7,6 +7,7 @@ use Controllers\APIProductos;
 use Controllers\AuthController;
 use Controllers\CarritoController;
 use Controllers\MainPaginasController;
+use Controllers\AdminController;
 
 $router = new Router();
 
@@ -27,11 +28,13 @@ $router->post('/reestablecer', [AuthController::class, 'reestablecer']);
 // Confirmación de Cuenta
 $router->get('/mensaje', [AuthController::class, 'mensaje']);
 $router->get('/confirmar-cuenta', [AuthController::class, 'confirmar']);
-
 // ---- Main ----
 $router->get('/', [MainPaginasController::class, 'index']);
+$router->get('/producto', [MainPaginasController::class, 'producto']);
 $router->get('/destacados', [MainPaginasController::class, 'destacados']);
 $router->get('/categorias', [MainPaginasController::class, 'categorias']);
+//Acciones de Usuario
+$router->get('/perfil', [MainPaginasController::class, 'perfil']);
 $router->get('/compras', [MainPaginasController::class, 'compras']);
 $router->get('/compra', [MainPaginasController::class, 'compra']);
 $router->get('/compra/Comprobante', [MainPaginasController::class, 'PDF']);
@@ -45,11 +48,8 @@ $router->post('/carrito/comprar', [CarritoController::class, 'comprar']);
 $router->get('/api/productos', [APIProductos::class, 'getProductos']);
 $router->get('/api/productos/valoracion', [APIProductos::class, 'getProductosPorValoracion']);
 $router->get('/api/categorias', [APIProductos::class, 'getCategorias']);
-
-$router->get('/perfil', [MainPaginasController::class, 'perfil']);
-$router->get('/producto', [MainPaginasController::class, 'producto']);
 // ---- Admin ----
-
+$router->get('/admin', [AdminController::class, 'index']);
 
 
 $router->comprobarRutas();

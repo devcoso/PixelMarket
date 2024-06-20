@@ -57,19 +57,30 @@ class MainPaginasController {
     }
     
     public static function perfil(Router $router) {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
         }
-        $usuario = Usuario::find($_SESSION['id']);
-        $saldo = $usuario->saldo;
+        $id = intval($_SESSION['id'] ?? null);
+        if(!$id) {
+            header('Location: /login');
+        }
+        $usuario = Usuario::find($id);
         // Render a la vista 
         $router->render('main/perfil', [
             'titulo' => 'Perfil',
-            'saldo' => $saldo
+            'usuario' => $usuario
         ]);
     }
 
     public static function compras(Router $router) {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
         }
@@ -102,6 +113,10 @@ class MainPaginasController {
     }
 
     public static function compra(Router $router) {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
         }
@@ -139,6 +154,10 @@ class MainPaginasController {
     }
 
     public static function PDF() {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
         }
@@ -241,7 +260,7 @@ class MainPaginasController {
         <body>
             <h1>Pixel Market</h1>
             <p>Estimado/a <span>$nombre</span>, gracias por tu compra.</p>
-            <p>¡Aquí está tu comprobante de compra!.</p>
+            <p>¡Aquí está tu comprobante de compra!</p>
             <h2>Comprobante de compra <span>#$compra->id</span></h2>
             <p>Fecha: <span>$fecha</span></p>
             <p>Hora: <span>$hora</span></p>

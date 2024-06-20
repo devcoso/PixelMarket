@@ -11,6 +11,10 @@ use Model\Producto;
 
 class CarritoController {
     public static function carrito(Router $router) {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
             return;
@@ -34,6 +38,10 @@ class CarritoController {
     }
 
     public static function agregar() {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
             return;
@@ -74,7 +82,10 @@ class CarritoController {
     }
 
     public static function editar() {
-        
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             echo json_encode(['error' => 'No tienes permisos', 'ok' => false]);
             return;
@@ -103,6 +114,10 @@ class CarritoController {
     }
 
     public static function eliminar() {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
             return;
@@ -122,6 +137,10 @@ class CarritoController {
     }
 
     public static function comprar() {
+        if(is_admin()) {
+            header('Location: /admin');
+            return;
+        }
         if(!is_auth()) {
             header('Location: /login');
             return;

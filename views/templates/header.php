@@ -19,12 +19,16 @@
         <div class="font-display text-sm xl:text-xl text-zinc-200 uppercase w-1/2 justify-end gap-6 items-center flex">
             <a href="/destacados" class="hover:opacity-70 <?php echo pagina_actual('/destacados') ? 'opacity-50 text-zinc-300' : ''; ?>">Destacados</a>
             <a href="/categorias" class="hover:opacity-70 <?php echo pagina_actual('/categorias') ? 'opacity-50 text-zinc-300' : ''; ?>">Categorias</a>
-            <a href="/carrito" class="block w-1/5 min-w-8 max-w-10 cursor-pointer hover:opacity-70 <?php echo pagina_actual('/carrito') ? 'opacity-50 text-zinc-300' : ''; ?>">
-                <img src="/img/ShoppingCart.png" alt="Carrito de compras pixelado">
-            </a>
-            <a href="/perfil" class="block w-1/5 min-w-8 max-w-10 cursor-pointer hover:opacity-70 <?php echo pagina_actual('/perfil') ? 'opacity-50 text-zinc-300' : ''; ?>">
-                <img src="/img/IniciodeSesion.png" alt="Perfil">
-            </a>
+            <?php if(is_admin()){?>
+                <a href="/admin" class="hover:opacity-70 ">Admin</a>
+            <?php } else { ?>
+                <a href="/carrito" class="block w-1/5 min-w-8 max-w-10 cursor-pointer hover:opacity-70 <?php echo pagina_actual('/carrito') ? 'opacity-50 text-zinc-300' : ''; ?>">
+                    <img src="/img/ShoppingCart.png" alt="Carrito de compras pixelado">
+                </a>
+                <a href="/perfil" class="block w-1/5 min-w-8 max-w-10 cursor-pointer hover:opacity-70 <?php echo pagina_actual('/perfil') ? 'opacity-50 text-zinc-300' : ''; ?>">
+                    <img src="/img/IniciodeSesion.png" alt="Perfil">
+                </a>
+            <?php } ?>
         </div>
     </div>
     <div id="hamburguesa" class="lg:hidden w-1/5 max-w-10">
@@ -33,14 +37,19 @@
     <div id="menu" class="absolute top z-100 w-full top-24 font-display hidden text-xl text-zinc-200 uppercase flex-col items-center lg:hidden">
         <a href="/destacados" class="bg-zinc-700 py-3 hover:opacity-70 w-full text-center <?php echo pagina_actual('/destacados') ? 'opacity-90' : ''; ?>">Destacados</a>
         <a href="/categorias" class="bg-zinc-700 py-3 hover:opacity-70 w-full text-center <?php echo pagina_actual('/categorias') ? 'opacity-90' : ''; ?>">Categorias</a>
-        <a href="/carrito" class="bg-zinc-700 py-3 hover:opacity-70 w-full flex justify-center items-center <?php echo pagina_actual('/carrito') ? 'opacity-90' : ''; ?>">
-            <img src="/img/ShoppingCart.png" alt="Carrito de compras pixelado" class="w-1/5 max-w-10 cursor-pointer">
-            <p>Carrito</p>
-        </a>
-        <a href="/perfil" class="bg-zinc-700 py-3 hover:opacity-70 w-full flex justify-center items-center <?php echo pagina_actual('/perfil') ? 'opacity-90' : ''; ?>">
-            <img src="/img/IniciodeSesion.png" alt="Perfil" class="w-1/5 max-w-8 cursor-pointer">
-            <p>Perfil</p>
-        </a>
+        
+        <?php if(is_admin()){?>
+                <a href="/admin" class="bg-zinc-700 py-3 hover:opacity-70 w-full text-center">Admin</a>
+        <?php } else { ?>
+                <a href="/carrito" class="bg-zinc-700 py-3 hover:opacity-70 w-full flex justify-center items-center <?php echo pagina_actual('/carrito') ? 'opacity-90' : ''; ?>">
+                    <img src="/img/ShoppingCart.png" alt="Carrito de compras pixelado" class="w-1/5 max-w-10 cursor-pointer">
+                    <p>Carrito</p>
+                </a>
+                <a href="/perfil" class="bg-zinc-700 py-3 hover:opacity-70 w-full flex justify-center items-center <?php echo pagina_actual('/perfil') ? 'opacity-90' : ''; ?>">
+                    <img src="/img/IniciodeSesion.png" alt="Perfil" class="w-1/5 max-w-8 cursor-pointer">
+                    <p>Perfil</p>
+                </a>
+        <?php } ?>
         <div class="w-full bg-zinc-700 py-5 px-8 font-sans mx-auto"> 
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
             <div class="relative">
