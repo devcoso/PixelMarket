@@ -163,7 +163,7 @@ class MainPaginasController {
             $pagado += $producto->pagado;
             $cantitad_total += $producto->cantidad;
         }
-        $compra->pagado = $pagado;
+        $compra->pagado = number_format($pagado, 2, '.', ',');
         $compra->cantidad = $cantitad_total;
         $dompdf = new Dompdf();
         $fecha = $compra->fecha->format('Y-m-d');
@@ -260,7 +260,8 @@ class MainPaginasController {
         ";
         foreach($productos as $producto){
             $cantidad = $producto->cantidad;
-            $pagado = $producto->pagado;
+            $pagado = number_format($producto->pagado, 2, '.', ',');
+            $precio = number_format($producto->producto->precio, 2, '.', ',');
             $producto = $producto->producto;
             $html .= "
                         <tr>
@@ -268,7 +269,7 @@ class MainPaginasController {
                                 <h4>$producto->titulo</h4>
                             </td>
                             <td>$cantidad</td>
-                            <td>$<span>$producto->precio</span></td>
+                            <td>$<span>$precio</span></td>
                             <td>$<span>$pagado</span></td>
                         </tr>
             ";
@@ -278,7 +279,7 @@ class MainPaginasController {
                 </table>
             </div>
             <p style=\"font-size: 1.4rem;\">Cantidad de artículos: <span>$compra->cantidad</span></p>
-            <p style=\"font-size: 2rem;\">Total: <span>$compra->pagado</span></p>
+            <p style=\"font-size: 2rem;\">Total:$<span>$compra->pagado</span></p>
         </body>
         </html>";
         $dompdf->loadHtml($html);

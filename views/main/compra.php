@@ -1,4 +1,7 @@
 <div class="py-10 text-zinc-600 space-y-5 min-h-screen flex items-center flex-col" id="pdf">
+    <div class="flex w-full p-3">
+        <a href="/compras" class="rounded-md shadow-md font-display bg-zinc-800 text-white bloc px-5 py-2">&laquo;Volver</a>
+    </div>
     <h1 class="text-4xl font-display text-zinc-800">Compra #<?php echo $compra->id ?></h1>
     <p class="font-display text-lg text-center py-1">Fecha: <span class="font-sans"><?php echo $compra->fecha->format('Y-m-d');?></span></p>
     <p class="font-display text-lg text-center py-1">Hora: <span class="font-sans"><?php echo $compra->fecha->format('H:i:s');?></span></p>
