@@ -14,10 +14,16 @@ use Model\CompraProducto;
 
 class MainPaginasController {
     public static function index(Router $router) {
+        $productos = Producto::getBy(6, 'stock');
+        $comentarios = Comentarios::getBy(3, 'valoracion');
+        $productos_precio = Producto::getBy(6, 'precio', 'ASC');
 
         // Render a la vista 
         $router->render('main/index', [
             'titulo' => 'Incio',
+            'productos' => $productos,
+            'comentarios' => $comentarios,
+            'productos_precio' => $productos_precio
         ]);
     }
 

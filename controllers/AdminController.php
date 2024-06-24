@@ -16,7 +16,55 @@ class AdminController {
         ], 'admin');
     }
 
+    public static function compras(Router $router) {
+        if(!is_admin()){
+            header('Location: /');
+            return;
+        }
+        $router->render('admin/compras', [
+            'titulo' => 'Compras',
+        ], 'admin');
+    }
 
+    public static function usuarios(Router $router) {
+        if(!is_admin()){
+            header('Location: /');
+            return;
+        }
+        $router->render('admin/usuarios', [
+            'titulo' => 'Usuarios',
+        ], 'admin');
+    }   
+
+    public static function productosMasVendidos(Router $router) {
+        if(!is_admin()){
+            header('Location: /');
+            return;
+        }
+        $router->render('admin/productos-mas-vendidos', [
+            'titulo' => 'Productos más vendidos',
+        ], 'admin');
+    }
+
+    public static function categoriasMasVendidas(Router $router) {
+        if(!is_admin()){
+            header('Location: /');
+            return;
+        }
+        $router->render('admin/categorias-mas-vendidas', [
+            'titulo' => 'Categorías más vendidas',
+        ], 'admin');
+    }
+
+    public static function stock(Router $router) {
+        if(!is_admin()){
+            header('Location: /');
+            return;
+        }
+        $router->render('admin/stock', [
+            'titulo' => 'Stock',
+        ], 'admin');
+    }
 
     public static function actualizarStock(){
         if(!is_admin()){
