@@ -11,7 +11,7 @@
             <img src="<?= $producto->imagen ?>" alt="<?= $producto->nombre ?>" class=" max-w-48 max-h-48">
             <h2 class="text-4xl"><?= $producto->titulo ?></h2>
             <p class="text-2xl font-bold">$<?= $producto->precio ?></p>
-            <a class="border-2 bg-zinc-900 text-zinc-200 px-3 py-1 text-2xl hover:opacity-80 " href="/producto/<?= $producto->id ?>">Ver Producto</a>
+            <a class="border-2 bg-zinc-900 text-zinc-200 px-3 py-1 text-2xl hover:opacity-80 " href="/producto?id=<?= $producto->id ?>">Ver Producto</a>
         </div>
         <?php } ?>
     </div>
@@ -22,13 +22,13 @@
             <p class="text-lg">!Los mejores precios que puedes encontrar entre todos los pixeles de internet¡</p>
         </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 items-center p-3 gap-8 mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 items-center p-3 gap-8 my-10">
        <?php foreach($productos_precio as $producto) {?> 
         <div class="bg-zinc-100 shadow-lg flex flex-col items-center font-display p-3">
             <img src="<?= $producto->imagen ?>" alt="<?= $producto->nombre ?>" class=" max-w-48 max-h-48">
             <h2 class="text-4xl"><?= $producto->titulo ?></h2>
             <p class="text-2xl font-bold">$<?= $producto->precio ?></p>
-            <a class="border-2 bg-zinc-900 text-zinc-200 px-3 py-1 text-2xl hover:opacity-80 " href="/producto/<?= $producto->id ?>">Ver Producto</a>
+            <a class="border-2 bg-zinc-900 text-zinc-200 px-3 py-1 text-2xl hover:opacity-80 " href="/producto?id=<?= $producto->id ?>">Ver Producto</a>
         </div>
         <?php } ?>
     </div>
