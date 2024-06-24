@@ -23,13 +23,25 @@
                 </div>
             </div>
             <p class="font-bold text-4xl font-display">$<?php echo number_format($producto->precio, 2, '.', ',');?></p>
-            <?php if(is_auth()){ ?>
-                <form action="/carrito?id=<?php echo $producto->id ?>" method="POST">
-                    <button type="submit" class="bg-zinc-800 text-white font-bold py-4 font-display px-8 rounded flex gap-4">
-                        <img src="/img/ShoppingCart.png" class="w-8" alt="Carrito Pixeleado">
-                        Agregar al carrito
-                    </button>
-                </form>
+            <p class="font-bold text-lg w-full text-left">Stock: <span id="stockP" class="<?php echo $producto->stock > 0 ? '' : 'text-red-600' ?> font-display"><?php echo $producto->stock?></span></p>
+            <?php if(is_auth()){ 
+                if(is_admin()){?>
+                    <div class="flex flex-col gap-4 items-center">
+                        <input id="id-producto" type="hidden" value="<?php echo $producto->id ?>">
+                        <div>
+                            <label for="stock">Stock:</label>
+                            <input id="stockInput" type="number" class="border-zinc-600 border-2" value="<?php echo $producto->stock ?>">
+                        </div>
+                        <button id="btn-stock" class="bg-zinc-800 text-white font-bold py-2 font-display px-8 rounded">Actualizar</button>
+                    </div>
+                <?php } else { ?>
+                    <form action="/carrito?id=<?php echo $producto->id ?>" method="POST">
+                        <button <?php echo $producto->stock > 0 ? '' : 'disabled'?> type="submit" class=" disabled:opacity-70 disabled:cursor-not-allowed bg-zinc-800 text-white font-bold py-4 font-display px-8 rounded flex gap-4">
+                            <img src="/img/ShoppingCart.png" class="w-8" alt="Carrito Pixeleado">
+                            Agregar al carrito
+                        </button>
+                    </form>
+                <?php } ?>
             <?php } else {?>
                 <div class="text-center">
                     <p class="text-zinc-800">Inicia sesión para agregar al carrito</p>
@@ -52,3 +64,4 @@
         <?php } ?>
     </div>
 </div>
+<?php if(is_admin()) echo "<script src= \"/js/admin/producto.js \"></script>";

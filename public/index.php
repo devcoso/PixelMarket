@@ -50,6 +50,7 @@ $router->get('/api/productos/valoracion', [APIProductos::class, 'getProductosPor
 $router->get('/api/categorias', [APIProductos::class, 'getCategorias']);
 // ---- Admin ----
 $router->get('/admin', [AdminController::class, 'index']);
+$router->post('/admin/producto/stock', [AdminController::class, 'actualizarStock']);
 
 
 $router->comprobarRutas();

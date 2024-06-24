@@ -4,11 +4,12 @@ namespace Model;
 
 class Producto extends ActiveRecord {
     protected static $tabla = 'productos';
-    protected static $columnasDB = ['id', 'titulo', 'precio', 'categoria_id', 'descripcion', 'marca', 'valoracion', 'thumbnail', 'imagen', 'dimension_ancho', 'dimension_alto', 'dimension_largo'];
+    protected static $columnasDB = ['id', 'titulo', 'precio', 'stock', 'categoria_id', 'descripcion', 'marca', 'valoracion', 'thumbnail', 'imagen', 'dimension_ancho', 'dimension_alto', 'dimension_largo'];
 
     public $id;
     public $titulo;
     public $precio;
+    public $stock;
     public $categoria_id;
     public $descripcion;
     public $marca;
@@ -23,6 +24,7 @@ class Producto extends ActiveRecord {
     {
         $this->id = $args['id'] ?? null;
         $this->titulo = $args['titulo'] ?? '';
+        $this->stock = $args['stock'] ?? null;
         $this->precio = $args['precio'] ?? 0;
         $this->categoria_id = $args['categoria_id'] ?? null;
         $this->descripcion = $args['descripcion'] ?? '';

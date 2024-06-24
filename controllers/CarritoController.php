@@ -58,6 +58,11 @@ class CarritoController {
             }
             $carrito = Carrito::whereArray(['usuario_id' => $_SESSION['id'], 'producto_id' => $id]);
             if($carrito) {
+                $producto = Producto::find($carrito->producto_id);
+                if($producto->stock < 1 || $producto->stock < $carrito->cantidad + 1) {
+                    header('Location: /carrito?mensaje=No hay stock suficiente&tipo=error');
+                    return;
+                }
                 if($carrito->cantidad >= 10) {
                     header('Location: /carrito?mensaje=No puedes agregar más de 10 productos iguales&tipo=error');
                     return;
@@ -98,6 +103,12 @@ class CarritoController {
                 $carrito->cantidad = $_POST['cantidad'];
                 if($carrito->cantidad > 10 || $carrito->cantidad < 1) {
                     echo json_encode(['error' => 'No puedes agregar más de 10 o menos de 1 productos iguales', 'ok' => false]);
+                    return;
+                }
+                
+                $producto = Producto::find($carrito->producto_id);
+                if($producto->stock < $carrito->cantidad) {
+                    echo json_encode(['error' => 'No hay stock suficiente', 'ok' => false]);
                     return;
                 }	
                 else {
@@ -152,9 +163,20 @@ class CarritoController {
                 return;
             }
             $total = 0;
+            $bandera = false;
             foreach($carrito as $item) {
                 $item->producto = Producto::find($item->producto_id);
+                $item->producto->stock -= $item->cantidad;
                 $total += $item->producto->precio * $item->cantidad;
+                if($item->producto->stock < 0) {
+                    $bandera = true;
+                    $itemSinStock = Carrito::whereArray(['usuario_id' => $_SESSION['id'], 'producto_id' => $item->producto_id]);
+                    $itemSinStock->eliminar();
+                }
+            }
+            if($bandera) {
+                header('Location: /carrito?mensaje=No hay stock suficiente&tipo=error');
+                return;
             }
             $usuario = Usuario::find($_SESSION['id']);
             if($usuario->saldo < $total) {
@@ -174,8 +196,15 @@ class CarritoController {
                 $compra_producto = new CompraProducto();
                 $compra_producto->compra_id = $compra_id;
                 $compra_producto->producto_id = $item->producto_id;
+                $producto = Producto::find($item->producto_id);
+                $producto->stock -= $item->cantidad;
                 $compra_producto->cantidad = $item->cantidad;
                 $compra_producto->pagado = $item->producto->precio * $item->cantidad;
+                $resultado = $producto->guardar();
+                if(!$resultado) {
+                    header('Location: /carrito?mensaje=Error al comprar&tipo=error');
+                    return;
+                }
                 $resultado = $compra_producto->guardar();
                 if(!$resultado) {
                     header('Location: /carrito?mensaje=Error al comprar&tipo=error');
