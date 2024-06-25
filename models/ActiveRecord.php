@@ -159,6 +159,26 @@ class ActiveRecord {
         return $resultado;
     }
 
+    public static function total($columna = '', $valor = '') {
+        $query = "SELECT COUNT(*) FROM " . static::$tabla;
+        if($columna){
+            $query .= " WHERE $columna = $valor";
+        }
+        $resultado = self::$db->query($query);
+        $total = $resultado->fetch_array();
+
+        return array_shift($total);
+    }
+
+    public static function paginar($por_pagina, $offset, $orden = 'ASC'){
+        $query = "SELECT * FROM " . static::$tabla . " ORDER BY id $orden LIMIT $por_pagina OFFSET $offset" ;
+        if($offset < 0) {
+            $query = "SELECT * FROM " . static::$tabla . " ORDER BY id $orden LIMIT $por_pagina" ;
+        }
+        $resultado = self::consultarSQL($query);
+        return ( $resultado ) ;
+    }
+
     // crea un nuevo registro
     public function crear() {
         // Sanitizar los datos

@@ -51,10 +51,11 @@ $router->get('/api/categorias', [APIProductos::class, 'getCategorias']);
 // ---- Admin ----
 $router->get('/admin', [AdminController::class, 'index']);
 $router->get('/admin/compras', [AdminController::class, 'compras']);
+$router->get('/admin/compra', [AdminController::class, 'compra']);
 $router->get('/admin/usuarios', [AdminController::class, 'usuarios']);
-$router->get('/admin/productos-mas-vendidos', [AdminController::class, 'productosMasVendidos']);
-$router->get('/admin/categorias-mas-vendidas', [AdminController::class, 'categoriasMasVendidas']);
-$router->get('/admin/stock', [AdminController::class, 'stock']);
+$router->get('/admin/productos', [AdminController::class, 'productos']);
+$router->get('/admin/categorias', [AdminController::class, 'categorias']);
+//--API admin
 $router->post('/admin/producto/stock', [AdminController::class, 'actualizarStock']);
 
 
