@@ -181,7 +181,60 @@ class AdminController {
                 'ok' => false,
                 'mensaje' => 'No tienes permisos para realizar esta acción'
             ]);
+            return;
         }
+        $total_usuarios = Usuario::total();
+        $total_productos = Producto::total();
+        $total_compras = Compra::total();
+        $total_stock = 0;
+        $articulos_vendidos = 0;
+        $ingresos = 0;
+        $compras = CompraProducto::all();
+        foreach($compras as $compra){
+            $articulos_vendidos += $compra->cantidad;
+            $ingresos += $compra->pagado;
+        }
+        $productos = Producto::all();
+        foreach($productos as $producto){
+            $total_stock += $producto->stock;
+            $producto->ventas = 0;
+            $compras = CompraProducto::whereAll('producto_id', $producto->id);
+            foreach($compras as $compra){
+                $producto->ventas += $compra->cantidad;
+            }
+        }
+        //Ordenar arreglo por mayour ventas
+        usort($productos, function($a, $b){
+            return $b->ventas <=> $a->ventas;
+        });
+        $top_10_productos = array_slice($productos, 0, 10);
+        $categorias = Categorias::all();
+        foreach($categorias as $categoria){
+            $categoria->ventas = 0;
+            $productos = Producto::whereAll('categoria_id', $categoria->id);
+            foreach($productos as $producto){
+                $compras = CompraProducto::whereAll('producto_id', $producto->id);
+                foreach($compras as $compra){
+                    $categoria->ventas += $compra->cantidad;
+                }
+            }   
+        }
+         //Ordenar arreglo por mayour ventas
+         usort($categorias, function($a, $b){
+            return $b->ventas <=> $a->ventas;
+        });
+        $top_5_categorias = array_slice($categorias, 0, 5);
+        echo json_encode([
+            'ok' => true,
+            'total_usuarios' => $total_usuarios,
+            'total_productos' => $total_productos,
+            'total_compras' => $total_compras,
+            'total_stock' => $total_stock,
+            'articulos_vendidos' => $articulos_vendidos,
+            'ingresos' => $ingresos,
+            'top_10_productos' => $top_10_productos,
+            'top_5_categorias' => $top_5_categorias
+        ]);
     }
 
     public static function actualizarStock(){
@@ -190,6 +243,7 @@ class AdminController {
                 'ok' => false,
                 'mensaje' => 'No tienes permisos para realizar esta acción'
             ]);
+            return;
         }
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $id = $_POST['id'];

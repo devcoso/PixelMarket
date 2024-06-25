@@ -56,6 +56,7 @@ $router->get('/admin/usuarios', [AdminController::class, 'usuarios']);
 $router->get('/admin/productos', [AdminController::class, 'productos']);
 $router->get('/admin/categorias', [AdminController::class, 'categorias']);
 //--API admin
+$router->get('/admin/api/dashboard', [AdminController::class, 'dashboard']);
 $router->post('/admin/producto/stock', [AdminController::class, 'actualizarStock']);
 
 

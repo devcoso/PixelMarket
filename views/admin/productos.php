@@ -6,6 +6,7 @@
                 <th scope="col" class="px-6 py-3">Producto</th>
                 <th scope="col" class="px-6 py-3">Stock</th>
                 <th scope="col" class="px-6 py-3">Ventas</th>
+                <th scope="col" class="px-6 py-3">Ingresos</th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +18,9 @@
                                 <?= $producto->titulo ?>
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-center"><?= $producto->stock?></td>
-                        <td class="px-6 py-4 text-center"><?= $producto->ventas?></td>
+                        <td class="px-6 py-4 text-center"><?= number_format($producto->stock)?></td>
+                        <td class="px-6 py-4 text-center"><?= number_format($producto->ventas)?></td>
+                        <td class="px-6 py-4 text-center"><?= number_format($producto->ventas * $producto->precio,2)?></td>
                     </tr>
             <?php endforeach; ?>
         </tbody>

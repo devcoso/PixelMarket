@@ -11,8 +11,8 @@
             <?php foreach($categorias as $categoria): ?>
                     <tr class="bg-white border-b">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "><?= $categoria->nombre?></td>
-                        <td class="px-6 py-4 text-center"><?= $categoria->stock?></td>
-                        <td class="px-6 py-4 text-center"><?= $categoria->ventas?></td>
+                        <td class="px-6 py-4 text-center"><?= number_format($categoria->stock)?></td>
+                        <td class="px-6 py-4 text-center"><?= number_format($categoria->ventas)?></td>
                     </tr>
             <?php endforeach; ?>
         </tbody>
