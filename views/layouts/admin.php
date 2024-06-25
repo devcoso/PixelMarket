@@ -23,7 +23,7 @@
         <a href="/admin/categorias?page=1" class="font-display text-zinc-200 text-2xl block text-center py-2 hover:bg-zinc-800 <?php echo pagina_actual('/admin/categorias') ? 'bg-zinc-800' : ''; ?>">Categorías</a>
         <form action="/logout" method="POST" class="block w-full"><button type="submit" class="bg-red-800 block text-zinc-200 lg:mt-20 mb-2 w-3/4 md:w-1/3 m-auto font-bold text-center rounded-md p-4 shadow-lg">Cerrar Sesión</button></form>
     </nav>
-    <main class="flex flex-col items-center lg:h-full lg:overflow-y-auto lg:w-3/4">
+    <main class="lg:h-full lg:overflow-y-auto lg:w-3/4">
         <h2 class="font-display text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-zinc-700 text-center py-10"><?php echo $titulo; ?></h2>
         <?php 
             echo $contenido;

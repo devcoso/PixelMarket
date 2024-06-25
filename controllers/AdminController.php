@@ -18,7 +18,7 @@ class AdminController {
             return;
         }
         $router->render('admin/index', [
-            'titulo' => 'Panel de Administración',
+            'titulo' => 'Dashboard',
         ], 'admin');
     }
 
