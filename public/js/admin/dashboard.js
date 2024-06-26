@@ -36,7 +36,6 @@ function formatearNumero(valor, locale = 'es-MX') {
 function graficas(productos, categorias) {
     const top_10_productos = document.getElementById('top_10_productos');
     const top_5_categorias = document.getElementById('top_5_categorias');
-    console.log(productos, categorias);
     new Chart(top_10_productos, {
         type: 'bar',
         data: {
@@ -47,15 +46,23 @@ function graficas(productos, categorias) {
             borderWidth: 1,
             backgroundColor: '#27272a',
             hoverBackgroundColor: '#52525b'
-            
         }]
         },
         options: {
-        scales: {
-            y: {
-            beginAtZero: true
+            scales: {
+                y: {
+                beginAtZero: true
+                },
+                x: {
+                    ticks: {
+                        callback: function(value, index, values) {
+                        const label = this.getLabelForValue(value);
+                        // Limita la longitud del label a 10 caracteres
+                        return label.length > 10 ? label.substr(0, 10) + '...' : label;
+                        }
+                    }
+                }
             }
-        }
         }
     });
 

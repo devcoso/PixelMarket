@@ -23,7 +23,7 @@
                 </div>
             </div>
             <p class="font-bold text-4xl font-display">$<?php echo number_format($producto->precio, 2, '.', ',');?></p>
-            <p class="font-bold text-lg w-full text-left">Stock: <span id="stockP" class="<?php echo $producto->stock > 0 ? '' : 'text-red-600' ?> font-display"><?php echo $producto->stock?></span></p>
+            <p class="font-bold text-lg w-full text-left">Stock: <span id="stockP" class="<?php echo $producto->stock > 0 ? '' : 'text-red-600' ?> font-display"><?php echo number_format($producto->stock)?></span></p>
             <?php if(is_auth()){ 
                 if(is_admin()){?>
                     <div class="flex flex-col gap-4 items-center">

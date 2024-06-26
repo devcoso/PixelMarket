@@ -20,7 +20,7 @@ async function searchProduct(value) {
     searchMenu.innerHTML = '';
     searchMenuMobile.innerHTML = '';
     if(value === '') return;
-    const response = await fetch(`https://dummyjson.com/products/search?q=${value}&select=id,title&limit=5`);
+    const response = await fetch(`https://dummyjson.com/products/search?q=${value}&select=id,title&limit=3`);
     if(!response.ok) {
         const li = document.createElement('li');
         li.textContent = 'Error al buscar productos, tal vez no hay conenxión a internet';
